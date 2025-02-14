@@ -1,0 +1,15 @@
+spring:
+  mail:
+    host: 0.0.0.0
+    username: info@example.com
+    password: passwd123
+    port: 25
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+
+server:
+  port: 8085

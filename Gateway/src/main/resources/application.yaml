@@ -1,0 +1,72 @@
+spring:
+  application:
+    name: gateway
+  cloud:
+    gateway:
+      globalcors:
+        corsConfigurations:
+          '[/**]':
+            allowedOrigins: http://localhost:3000
+            allowedMethods:
+              - GET
+              - POST
+              - PUT
+              - DELETE
+              - OPTIONS
+            allowedHeaders: "*"
+            allowCredentials: true
+      routes:
+        - id: workspace-service
+          uri: http://localhost:8083
+          predicates:
+            - Path=/api/workspaces/**
+          filters:
+            - name: AuthenticationFilter
+        - id: auth-service
+          uri: http://localhost:8082
+          predicates:
+            - Path=/api/auth/**
+        - id: user-service
+          uri: http://localhost:8081
+          predicates:
+            - Path=/api/user/**
+          filters:
+            - name: AuthenticationFilter
+        - id: QA-service
+          uri: http://localhost:8084
+          predicates:
+            - Path=/api/QA/**
+          filters:
+            - name: AuthenticationFilter
+        - id: statistics-service
+          uri: http://localhost:8086
+          predicates:
+            - Path=/api/statistics/**
+          filters:
+            - name: AuthenticationFilter
+        - id: email-service
+          uri: http://localhost:8085
+          predicates:
+            - Path=/api/mail/**
+          filters:
+            - name: AuthenticationFilter
+  main:
+    web-application-type: reactive
+
+server:
+  port: 8080
+
+
+jwt:
+  secret: 612987369178593529498726408152048751027846012
+
+logging:
+  level:
+    root: info
+    org:
+      springframework:
+        cloud:
+          gateway:
+            route:
+              RouteDefinitionLocator: info
+            trace: trace

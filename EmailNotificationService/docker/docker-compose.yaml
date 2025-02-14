@@ -1,0 +1,20 @@
+version: "3.9"
+
+services:
+  fake-smtp:
+    image: mailserver/docker-mailserver
+    container_name: SMTP
+    hostname: aaade.com
+    ports:
+      - "110:110"
+      - "143:143"
+      - "25:25"
+      - "4190:4190"
+      - "465:465"
+      - "587:587"
+      - "993:993"
+      - "995:995"
+    environment:
+      - PERMIT_DOCKER=network
+      - ENABLE_POLICYD_SPF=0
+      - SPOOF_PROTECTION=0
